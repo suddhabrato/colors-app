@@ -1,11 +1,11 @@
 .ColorBox{
-    width:20%;
+    width: 20%;
     height: 25%;
     margin: 0 auto;
     display: inline-block;
     position: relative;
     cursor: pointer;
-    margin-bottom: -3.7px;
+    margin-bottom: -3.8px;
 }
 
 .copy-button{
