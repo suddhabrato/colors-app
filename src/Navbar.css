@@ -23,7 +23,7 @@
 
 .slider{
     width:320px;
-    margin: 0 10px;
+    margin: 0 15px;
     display: inline-block;
 }
 
@@ -45,7 +45,7 @@
     box-shadow: none;
     width: 13px;
     height: 13px;
-    margin-left: -7px;
+    margin-left: -2px;
     margin-top: -3px;
 }
 
