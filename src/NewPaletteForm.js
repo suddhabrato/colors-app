@@ -8,12 +8,11 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { ChromePicker } from 'react-color';
 import DraggableColorList from './DraggableColorList';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { useNavigate } from 'react-router-dom';
 import { arrayMoveImmutable as arrayMove } from 'array-move';
 import PaletteFormNav from './PaletteFormNav';
+import ColorPickerForm from './ColorPickerForm';
 
 const drawerWidth = 320;
 
@@ -52,11 +51,11 @@ NewPaletteForm.defaultProps = {
 
 export default function NewPaletteForm(props) {
     const [open, setOpen] = React.useState(true);
-    const [currColor, setCurrColor] = React.useState('teal');
     const [colors, setNewColor] = React.useState([]);
-    const [newName, setNewName] = React.useState('');
+
     let navigate = useNavigate();
     let paletteFull = colors.length >= props.maxColors;
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -65,18 +64,13 @@ export default function NewPaletteForm(props) {
         setOpen(false);
     };
 
-    const updateColors = () => {
-        const newCol = { color: currColor, name: newName };
-        setNewColor([...colors, newCol]);
-        setNewName('');
-    };
-
     const clearColors = () => {
         setNewColor([]);
     };
 
-    const handleChange = (event) => {
-        setNewName(event.target.value);
+    const updateColors = (currColor, newName) => {
+        const newCol = { color: currColor, name: newName };
+        setNewColor([...colors, newCol]);
     };
 
     const handleSubmit = (newPaletteName) => {
@@ -103,24 +97,6 @@ export default function NewPaletteForm(props) {
     React.useEffect(() => {
         setNewColor(props.palettes[0].colors);
     }, []);
-
-    React.useEffect(() => {
-        ValidatorForm.addValidationRule('isColorNameUnique', (value) =>
-            colors.every(
-                ({ name }) => name.toLowerCase() !== value.toLowerCase()
-            )
-        );
-        ValidatorForm.addValidationRule('isColorUnique', () =>
-            colors.every(
-                ({ color }) => color !== currColor
-            )
-        );
-        ValidatorForm.addValidationRule('isPaletteNameUnique', (value) =>
-            props.palettes.every(
-                ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
-            )
-        );
-    }, [colors, currColor, props.palettes]);
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -155,21 +131,11 @@ export default function NewPaletteForm(props) {
                     <Button variant='contained' color='error' onClick={clearColors}>Clear Palette</Button>
                     <Button variant='contained' color='primary' onClick={addRandom} disabled={paletteFull}>Random Color</Button>
                 </div>
-                <ChromePicker color={currColor} onChange={(newColor) => setCurrColor(newColor.hex)} />
-                <ValidatorForm onSubmit={updateColors}>
-                    <TextValidator
-                        value={newName}
-                        onChange={handleChange}
-                        validators={['required', 'isColorNameUnique', 'isColorUnique']}
-                        errorMessages={['Enter a Color Name', 'Color name must be unique!', 'Color already used!']} />
-                    <Button
-                        type='submit'
-                        variant='contained'
-                        color='primary'
-                        style={{ backgroundColor: paletteFull ? 'gray' : currColor }}
-                        disabled={paletteFull}
-                    >Add Color</Button>
-                </ValidatorForm>
+                <ColorPickerForm
+                    paletteFull={paletteFull}
+                    updateColors={updateColors}
+                    colors={colors}
+                />
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
