@@ -12,12 +12,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { ChromePicker } from 'react-color';
+import DraggableColorBox from './DraggableColorBox';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 320;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         flexGrow: 1,
+        height: `calc(100vh - 64px)`,
         padding: theme.spacing(3),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
@@ -60,10 +64,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-export default function NewPaletteForm() {
+export default function NewPaletteForm(props) {
     const [open, setOpen] = React.useState(true);
     const [currColor, setCurrColor] = React.useState('teal');
-    const [colors, setNewColor] = React.useState(['teal']);
+    const [colors, setNewColor] = React.useState([]);
+    const [newName, setNewName] = React.useState('');
+    let navigate = useNavigate();
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -72,7 +78,37 @@ export default function NewPaletteForm() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-    const updateColors = () => setNewColor([...colors, currColor]);
+
+    const updateColors = () => {
+        const newCol = { color: currColor, name: newName };
+        setNewColor([...colors, newCol]);
+        setNewName('');
+    };
+
+    const handleChange = (event) => {
+        setNewName(event.target.value);
+    };
+
+    const handleSubmit = () => {
+        const newPaletteName = 'New Test Palette';
+        const newPalette = { paletteName: newPaletteName, colors: colors, id: newPaletteName.toLowerCase().replace(/ /g, '-') };
+        props.savePalette(newPalette);
+        navigate('/');
+    }
+
+    React.useEffect(() => {
+        ValidatorForm.addValidationRule('isColorNameUnique', (value) =>
+            colors.every(
+                ({ name }) => name.toLowerCase() !== value.toLowerCase()
+            )
+        );
+        ValidatorForm.addValidationRule('isColorUnique', () =>
+            colors.every(
+                ({ color }) => color !== currColor
+            )
+        );
+    }, [colors, currColor]);
+
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -90,6 +126,7 @@ export default function NewPaletteForm() {
                     <Typography variant="h6" noWrap component="div">
                         Persistent drawer
                     </Typography>
+                    <Button color='error' variant='contained' onClick={handleSubmit}>Save Palette</Button>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -117,11 +154,18 @@ export default function NewPaletteForm() {
                     <Button variant='contained' color='primary'>Random Color</Button>
                 </div>
                 <ChromePicker color={currColor} onChange={(newColor) => setCurrColor(newColor.hex)} />
-                <Button variant='contained' color='primary' style={{ backgroundColor: currColor }} onClick={updateColors}>Add Color</Button>
+                <ValidatorForm onSubmit={updateColors}>
+                    <TextValidator
+                        value={newName}
+                        onChange={handleChange}
+                        validators={['required', 'isColorNameUnique', 'isColorUnique']}
+                        errorMessages={['Enter a Color Name', 'Color name must be unique!', 'Color already used!']} />
+                    <Button type='submit' variant='contained' color='primary' style={{ backgroundColor: currColor }}>Add Color</Button>
+                </ValidatorForm>
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
-                <ul>{colors.map(color => (<li style={{ backgroundColor: color }}>{color}</li>))}</ul>
+                {colors.map(color => (<DraggableColorBox color={color.color} name={color.name} />))}
             </Main>
         </Box>
     );
