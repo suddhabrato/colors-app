@@ -31,7 +31,7 @@ class App extends Component {
     return (
       <Routes>
         <Route path='/' element={<PaletteList palettes={palettes} />} />
-        <Route path='/palette/new' element={<NewPaletteForm savePalette={this.savePalette} />} />
+        <Route path='/palette/new' element={<NewPaletteForm savePalette={this.savePalette} palettes={palettes} />} />
         <Route path="/palette/:id" element={<GetPalette />} />
         <Route path='/palette/:paletteId/:colorId' element={<GetSingleColorPalette />} />
       </Routes >
