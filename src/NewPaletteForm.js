@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { arrayMoveImmutable as arrayMove } from 'array-move';
 import PaletteFormNav from './PaletteFormNav';
 import ColorPickerForm from './ColorPickerForm';
+import DRAWER_WIDTH from './constants';
 
 const Container = styled('div')({
     height: '100%',
@@ -26,13 +27,13 @@ const Buttons = styled('div')({
     width: '100%'
 });
 
-const drawerWidth = 350;
+const drawerWidth = DRAWER_WIDTH;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         flexGrow: 1,
         height: `calc(100vh - 64px)`,
-        padding: theme.spacing(3),
+        padding: theme.spacing(0),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -51,6 +52,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
+    width: '100%',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,

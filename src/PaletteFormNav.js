@@ -4,12 +4,13 @@ import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import PaletteIcon from '@mui/icons-material/Palette';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import PaletteMetaForm from './PaletteMetaForm';
+import DRAWER_WIDTH from './constants';
 
-const drawerWidth = 350;
+const drawerWidth = DRAWER_WIDTH;
 
 const Root = styled('div')({
     display: 'flex'
@@ -66,7 +67,7 @@ export default function PaletteFormNav({ open, palettes, handleSubmit, handleDra
                         edge="start"
                         sx={{ mr: 2, ...(open && { display: 'none' }) }}
                     >
-                        <MenuIcon />
+                        <PaletteIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
                         Create a Palette
