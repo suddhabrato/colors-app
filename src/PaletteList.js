@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 class PaletteList extends Component {
     render() {
-        const { palettes, classes } = this.props;
+        const { palettes, classes, deletePalette } = this.props;
         return (
             <div className={classes.root}>
                 <div className={classes.container}>
@@ -14,7 +14,7 @@ class PaletteList extends Component {
                         <h1>React Colors</h1>
                         <Link to='/palette/new'>Create Palette</Link>
                     </nav>
-                    <div className={classes.palettes}>{palettes.map(palette => (<MiniPalette {...palette} key={palette.paletteName} />))}</div>
+                    <div className={classes.palettes}>{palettes.map(palette => (<MiniPalette {...palette} handleDelete={deletePalette} key={palette.paletteName} />))}</div>
                 </div>
             </div>
         )
