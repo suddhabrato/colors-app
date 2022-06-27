@@ -1,4 +1,5 @@
 import React from 'react';
+import { withStyles } from '@material-ui/styles';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -14,7 +15,24 @@ import { arrayMoveImmutable as arrayMove } from 'array-move';
 import PaletteFormNav from './PaletteFormNav';
 import ColorPickerForm from './ColorPickerForm';
 
-const drawerWidth = 320;
+const styles = {
+    container: {
+        height: '100%',
+        width: '90%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    buttons: {
+        width: '100%'
+    },
+    button: {
+        width: '50%'
+    }
+}
+
+const drawerWidth = 350;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
@@ -49,12 +67,13 @@ NewPaletteForm.defaultProps = {
     maxColors: 20
 };
 
-export default function NewPaletteForm(props) {
+function NewPaletteForm(props) {
     const [open, setOpen] = React.useState(true);
     const [colors, setNewColor] = React.useState([]);
 
     let navigate = useNavigate();
     let paletteFull = colors.length >= props.maxColors;
+    const { classes } = props;
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -80,6 +99,7 @@ export default function NewPaletteForm(props) {
     };
 
     const deleteColor = (colorName) => {
+        console.log("In Here")
         setNewColor(colors.filter(color => color.name !== colorName))
     };
 
@@ -114,6 +134,8 @@ export default function NewPaletteForm(props) {
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
                         boxSizing: 'border-box',
+                        display: 'flex',
+                        alignItems: 'center'
                     },
                 }}
                 variant="persistent"
@@ -126,16 +148,18 @@ export default function NewPaletteForm(props) {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-                <Typography variant='h4'>Design Your Palette</Typography>
-                <div>
-                    <Button variant='contained' color='error' onClick={clearColors}>Clear Palette</Button>
-                    <Button variant='contained' color='primary' onClick={addRandom} disabled={paletteFull}>Random Color</Button>
+                <div className={classes.container}>
+                    <Typography variant='h4' gutterBottom>Design Your Palette</Typography>
+                    <div className={classes.buttons}>
+                        <Button className={classes.button} variant='contained' color='error' onClick={clearColors}>Clear Palette</Button>
+                        <Button className={classes.button} variant='contained' color='primary' onClick={addRandom} disabled={paletteFull}>Random Color</Button>
+                    </div>
+                    <ColorPickerForm
+                        paletteFull={paletteFull}
+                        updateColors={updateColors}
+                        colors={colors}
+                    />
                 </div>
-                <ColorPickerForm
-                    paletteFull={paletteFull}
-                    updateColors={updateColors}
-                    colors={colors}
-                />
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
@@ -144,3 +168,5 @@ export default function NewPaletteForm(props) {
         </Box >
     );
 }
+
+export default withStyles(styles)(NewPaletteForm);
