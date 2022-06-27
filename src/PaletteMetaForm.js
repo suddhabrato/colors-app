@@ -34,7 +34,6 @@ export default function PaletteMetaForm({ handleSubmit, handleClose, palettes })
     };
 
     const savePalette = (emoji) => {
-        console.log(emoji.native);
         const newPalette = { paletteName: newPaletteName, emoji: emoji.native }
         handleSubmit(newPalette);
     };
