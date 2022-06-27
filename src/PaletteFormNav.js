@@ -10,13 +10,11 @@ import Button from '@mui/material/Button';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { Link } from 'react-router-dom';
 
-const styles = {
-    root: {
-        display: 'flex'
-    }
-};
-
 const drawerWidth = 350;
+
+const Root = styled('div')({
+    display: 'flex'
+});
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
@@ -39,7 +37,7 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-function PaletteFormNav({ open, palettes, handleSubmit, handleDrawerOpen, classes }) {
+export default function PaletteFormNav({ open, palettes, handleSubmit, handleDrawerOpen }) {
     const [newPaletteName, setNewPaletteName] = React.useState('');
 
     React.useEffect(() => {
@@ -54,7 +52,7 @@ function PaletteFormNav({ open, palettes, handleSubmit, handleDrawerOpen, classe
         setNewPaletteName(event.target.value);
     };
     return (
-        <div className={classes.root}>
+        <Root>
             <AppBar position="fixed" color='default' open={open}>
                 <Toolbar>
                     <IconButton
@@ -70,7 +68,7 @@ function PaletteFormNav({ open, palettes, handleSubmit, handleDrawerOpen, classe
                         Create a Palette
                     </Typography>
                 </Toolbar>
-                <div className={classes.navBtns}>
+                <div >
                     <ValidatorForm onSubmit={() => handleSubmit(newPaletteName)}>
                         <TextValidator
                             label='Palette Name'
@@ -85,8 +83,6 @@ function PaletteFormNav({ open, palettes, handleSubmit, handleDrawerOpen, classe
                     </Link>
                 </div>
             </AppBar>
-        </div>
+        </Root>
     )
-}
-
-export default withStyles(styles)(PaletteFormNav);
+};
