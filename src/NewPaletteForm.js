@@ -1,5 +1,4 @@
 import React from 'react';
-import { withStyles } from '@material-ui/styles';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -86,8 +85,9 @@ export default function NewPaletteForm(props) {
         setNewColor([...colors, newCol]);
     };
 
-    const handleSubmit = (newPaletteName) => {
-        const newPalette = { paletteName: newPaletteName, colors: colors, id: newPaletteName.toLowerCase().replace(/ /g, '-') };
+    const handleSubmit = (newPalette) => {
+        newPalette.id = newPalette.paletteName.toLowerCase().replace(/ /g, '-');
+        newPalette.colors = colors;
         props.savePalette(newPalette);
         navigate('/');
     };
