@@ -14,7 +14,19 @@ import { arrayMoveImmutable as arrayMove } from 'array-move';
 import PaletteFormNav from './PaletteFormNav';
 import ColorPickerForm from './ColorPickerForm';
 
-const drawerWidth = 320;
+const Container = styled('div')({
+    height: '100%',
+    width: '90%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+});
+const Buttons = styled('div')({
+    width: '100%'
+});
+
+const drawerWidth = 350;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
@@ -80,6 +92,7 @@ export default function NewPaletteForm(props) {
     };
 
     const deleteColor = (colorName) => {
+        console.log("In Here")
         setNewColor(colors.filter(color => color.name !== colorName))
     };
 
@@ -114,6 +127,8 @@ export default function NewPaletteForm(props) {
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
                         boxSizing: 'border-box',
+                        display: 'flex',
+                        alignItems: 'center'
                     },
                 }}
                 variant="persistent"
@@ -126,16 +141,18 @@ export default function NewPaletteForm(props) {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-                <Typography variant='h4'>Design Your Palette</Typography>
-                <div>
-                    <Button variant='contained' color='error' onClick={clearColors}>Clear Palette</Button>
-                    <Button variant='contained' color='primary' onClick={addRandom} disabled={paletteFull}>Random Color</Button>
-                </div>
-                <ColorPickerForm
-                    paletteFull={paletteFull}
-                    updateColors={updateColors}
-                    colors={colors}
-                />
+                <Container>
+                    <Typography variant='h4' gutterBottom>Design Your Palette</Typography>
+                    <Buttons>
+                        <Button sx={{ width: '50%' }} variant='contained' color='error' onClick={clearColors}>Clear Palette</Button>
+                        <Button sx={{ width: '50%' }} variant='contained' color='primary' onClick={addRandom} disabled={paletteFull}>Random Color</Button>
+                    </Buttons>
+                    <ColorPickerForm
+                        paletteFull={paletteFull}
+                        updateColors={updateColors}
+                        colors={colors}
+                    />
+                </Container>
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
@@ -143,4 +160,4 @@ export default function NewPaletteForm(props) {
             </Main>
         </Box >
     );
-}
+};
