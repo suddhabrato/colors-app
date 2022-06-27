@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import PaletteMetaForm from './PaletteMetaForm';
 import DRAWER_WIDTH from './constants';
+import sizes from './styles/sizes';
 
 const drawerWidth = DRAWER_WIDTH;
 
@@ -17,14 +18,21 @@ const Root = styled('div')({
 });
 
 const NavBtns = styled('div')({
-    margin: '1rem',
+    marginRight: '1rem',
     '& a': {
         textDecoration: 'none'
+    },
+    [sizes.down("xs")]: {
+        marginRight: "0.5rem"
     }
 });
 
 const StyledButtons = styled(Button)({
-    margin: '0 0.5rem'
+    margin: '0 0.5rem',
+    [sizes.down("xs")]: {
+        margin: "0 0.2rem",
+        padding: "0.3rem"
+    }
 });
 
 const AppBar = styled(MuiAppBar, {
