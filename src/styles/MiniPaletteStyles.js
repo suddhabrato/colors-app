@@ -1,5 +1,6 @@
 const styles = {
     root: {
+        height: 'fit-content',
         backgroundColor: 'white',
         border: '1px solid black',
         borderRadius: '5px',
@@ -8,7 +9,8 @@ const styles = {
         overflow: 'hidden',
         '&:hover': {
             cursor: 'pointer'
-        }
+        },
+        marginBottom: '1.5rem'
     },
     colors: {
         backgroundColor: '#dae1e4',
@@ -24,7 +26,6 @@ const styles = {
         margin: '0',
         color: 'black',
         paddingTop: '0.3rem',
-        paddingBottom: '0.5rem',
         fontSize: '0.8rem',
         position: 'relative'
     },
