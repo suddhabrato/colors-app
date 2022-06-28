@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import Palette from "./Palette";
 import { generatePalette } from './colorHelper';
 import seedColors from './seedColors';
-import { Routes, Route, useParams } from 'react-router-dom';
+import { Routes, Route, useParams, useLocation } from 'react-router-dom';
 import PaletteList from './PaletteList';
 import SingleColorPalette from './SingleColorPalette';
 import NewPaletteForm from './NewPaletteForm';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import Page from './Page';
 
 class App extends Component {
   constructor(props) {
@@ -43,13 +45,26 @@ class App extends Component {
       return <SingleColorPalette colorId={colorId} palette={generatePalette(currPalette)} />;
     }
 
+    const GetRouteTransitions = () => {
+      let location = useLocation();
+      return (
+        <TransitionGroup>
+          <CSSTransition key={location.key} classNames='page' timeout={500}>
+            <Routes location={location}>Page
+              <Route path='/' element={<Page><PaletteList palettes={palettes} deletePalette={this.deletePalette} /></Page>} />
+              <Route path='/palette/new' element={<Page><NewPaletteForm savePalette={this.savePalette} palettes={palettes} /></Page>} />
+              <Route path="/palette/:id" element={<Page><GetPalette /></Page>} />
+              <Route path='/palette/:paletteId/:colorId' element={<Page><GetSingleColorPalette /></Page>} />
+            </Routes >
+          </CSSTransition>
+        </TransitionGroup>
+      )
+    }
+
     return (
       <Routes>
-        <Route path='/' element={<PaletteList palettes={palettes} deletePalette={this.deletePalette} />} />
-        <Route path='/palette/new' element={<NewPaletteForm savePalette={this.savePalette} palettes={palettes} />} />
-        <Route path="/palette/:id" element={<GetPalette />} />
-        <Route path='/palette/:paletteId/:colorId' element={<GetSingleColorPalette />} />
-      </Routes >
+        <Route path='*' element={<GetRouteTransitions />} />
+      </Routes>
     );
   }
 }

@@ -36,6 +36,7 @@ export default function PaletteMetaForm({ handleSubmit, handleClose, palettes })
     const savePalette = (emoji) => {
         const newPalette = { paletteName: newPaletteName, emoji: emoji.native }
         handleSubmit(newPalette);
+        setOpen('');
     };
 
     React.useEffect(() => {

@@ -95,7 +95,6 @@ export default function NewPaletteForm(props) {
     };
 
     const deleteColor = (colorName) => {
-        console.log("In Here")
         setNewColor(colors.filter(color => color.name !== colorName))
     };
 
