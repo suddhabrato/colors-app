@@ -50,7 +50,7 @@ class App extends Component {
       return (
         <TransitionGroup>
           <CSSTransition key={location.key} classNames='page' timeout={500}>
-            <Routes location={location}>Page
+            <Routes location={location}>
               <Route path='/' element={<Page><PaletteList palettes={palettes} deletePalette={this.deletePalette} /></Page>} />
               <Route path='/palette/new' element={<Page><NewPaletteForm savePalette={this.savePalette} palettes={palettes} /></Page>} />
               <Route path="/palette/:id" element={<Page><GetPalette /></Page>} />

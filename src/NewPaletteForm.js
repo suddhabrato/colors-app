@@ -14,6 +14,7 @@ import { arrayMoveImmutable as arrayMove } from 'array-move';
 import PaletteFormNav from './PaletteFormNav';
 import ColorPickerForm from './ColorPickerForm';
 import DRAWER_WIDTH from './constants';
+import seedColors from './seedColors';
 
 const Container = styled('div')({
     height: '100%',
@@ -100,8 +101,14 @@ export default function NewPaletteForm(props) {
 
     const addRandom = () => {
         const allColors = props.palettes.map(pal => pal.colors).flat();
-        let rand = Math.floor(Math.random() * allColors.length);
-        const newCol = allColors[rand];
+        let rand;
+        let newCol;
+        let isDuplicate = true;
+        while (isDuplicate) {
+            rand = Math.floor(Math.random() * allColors.length);
+            newCol = allColors[rand];
+            isDuplicate = colors.some(color => color.name === newCol.name);
+        }
         setNewColor([...colors, newCol]);
     };
 
@@ -110,7 +117,7 @@ export default function NewPaletteForm(props) {
     };
 
     React.useEffect(() => {
-        setNewColor(props.palettes[0].colors);
+        setNewColor(seedColors[0].colors);
     }, []);
 
     return (

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './styles/MiniPaletteStyles';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-function MiniPalette(props) {
+const MiniPalette = React.memo(props => {
     const { classes, paletteName, emoji, colors, id, openDialog } = props;
     const miniColorBoxes = colors.map(color => (
         <div className={classes.miniColor} key={color.name} style={{ background: color.color }}></div>
@@ -24,6 +24,6 @@ function MiniPalette(props) {
             <h5 className={classes.title}>{paletteName}<span className={classes.emoji}>{emoji}</span></h5>
         </div>
     )
-}
+})
 
 export default withStyles(styles)(MiniPalette);

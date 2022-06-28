@@ -53,7 +53,7 @@ export default function ColorPickerForm({ paletteFull, updateColors, colors }) {
             marginTop: '1rem'
         }}>
             <ColorPicker color={currColor} onChange={(newColor) => setCurrColor(newColor.hex)} />
-            <ValidatorForm onSubmit={handleSubmit}>
+            <ValidatorForm onSubmit={handleSubmit} instantValidate={false}>
                 <ColorNameInput
                     margin='normal'
                     variant='filled'
