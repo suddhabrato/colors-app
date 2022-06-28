@@ -5,7 +5,7 @@ import styles from './styles/MiniPaletteStyles';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 function MiniPalette(props) {
-    const { classes, paletteName, emoji, colors, id, handleDelete } = props;
+    const { classes, paletteName, emoji, colors, id, openDialog } = props;
     const miniColorBoxes = colors.map(color => (
         <div className={classes.miniColor} key={color.name} style={{ background: color.color }}></div>
     ));
@@ -14,8 +14,8 @@ function MiniPalette(props) {
         history(`/palette/${id}`);
     }
     function deletePalette(event) {
-        handleDelete(id);
         event.stopPropagation();
+        openDialog(id);
     }
     return (
         <div className={classes.root} onClick={goToPalette}>
